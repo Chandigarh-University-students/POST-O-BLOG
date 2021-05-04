@@ -4,8 +4,6 @@ body {
 }
 
 .navbar {
-  /* padding-top: 15px;
-    padding-bottom: 15px; */
   padding: 15px;
   border: 0;
   border-radius: 0;
@@ -24,11 +22,12 @@ body {
   font-size: 12px;
   font-weight: bold;
   box-shadow: 2px 4px 6px #cfcfcf;
+  transition-duration: 0.3s;
 }
 
 #intro-content {
   text-align: center;
-  margin-top: 2%;
+  /* margin-top: 2%; */
 }
 #intro-content h1 {
   font-size: 3rem;
@@ -36,6 +35,41 @@ body {
 #postoblog {
   color: #0061a8;
 }
+.post-box {
+  background-color: #e6e6e6;
+  padding: 2%;
+  border-radius: 30px;
+  /* margin-top: 2%; */
+  box-shadow: 2px 5px 14px #eeeeee;
+}
+.post-para {
+  padding-bottom: 1.5%;
+  font-size: 1.6rem;
+}
+.rm-btn {
+  -webkit-border-radius: 9;
+  -moz-border-radius: 9;
+  border-radius: 9px;
+  -webkit-box-shadow: 2px 3px 6px #a6a6a6;
+  -moz-box-shadow: 2px 3px 6px #a6a6a6;
+  box-shadow: 2px 3px 6px #a6a6a6;
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  font-size: 14px;
+  background: #0061a8;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border: 0px;
+}
+
+.rm-btn:hover {
+  text-decoration: none;
+  color: #0061a8;
+  background-color: #dddddd;
+  border: 2px solid #0061a8;
+  transition-duration: 0.3s;
+}
+
 .footer-padding {
   padding-bottom: 60px;
 }
@@ -53,4 +87,8 @@ body {
   margin-top: 25px;
   font-size: 12px;
   color: #fff;
+}
+
+.my-2 {
+  margin-top: 2%;
 }

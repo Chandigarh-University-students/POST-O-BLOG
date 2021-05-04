@@ -1,0 +1,19 @@
+<%- include("partials/header"); -%>
+
+    <h3 class="container my-2">Compose your own post.</h3>
+
+    <form action="/submit" method="POST" class="container compose-form my-2">
+        <div class="form-group">
+            <label for="post-title">POST TITLE</label>
+            <input type="text" class="form-control" id="post-title">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">POST CONTENT</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
+        </div>
+        <button type="submit" class="rm-btn">Submit</button>
+
+    </form>
+
+    <%- include("partials/footer"); -%>
