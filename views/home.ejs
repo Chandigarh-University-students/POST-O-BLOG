@@ -7,16 +7,21 @@
             thoughts.
         </h4>
     </main>
-    <div class="container post-box my-2">
-        <h2 class="post-title">POST TITLE</h2>
-        <p class="post-para">This is a simple hero unit, a simple jumbotron-style component for calling extra
-            attention to
-            featured content or information. yahan pe aur bhi bahut kuch aayega tu kaahe chinta karata aahe aahe ...</p>
-        <a class="rm-btn" href="#" role="button">Read more</a>
-        </p>
-    </div>
 
+   
+        <% newPost.forEach(function(post){ %>
+            <div class="card post-box">
+                <div class="card-body">
+                    <h2 class="card-title post-title"> <%= post.title %></h2>
+                    <h6 class="card-subtitle mb-2"> <a href="#"> <em><%= "@" + post.account %></em> </a></h6>
+                        <p class="card-text post-para"><%= post.content %></p>
+                        <a class="btn rm-btn" href="/posts/<%= post._id %> " role="button">Read more</a>
+                </div>
+            </div>
+        <% }) %> 
+   
 
 
 
     <%- include("partials/footer"); -%>
+

@@ -3,31 +3,81 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-.navbar {
-  padding: 15px;
-  border: 0;
-  border-radius: 0;
-  margin-bottom: 0;
-  font-size: 12px;
-  letter-spacing: 3px;
-  background-color: #dddddd;
-}
-.navbar-nav li a {
-  font-size: 13px;
-}
-.navbar-nav li a:hover {
-  color: #0061a8 !important;
-  border: solid 3px #0061a8;
-  border-radius: 15px;
-  font-size: 12px;
-  font-weight: bold;
-  box-shadow: 2px 4px 6px #cfcfcf;
-  transition-duration: 0.3s;
+/*---------Header------------*/
+
+#postoblog-logo
+{
+  border-radius:0px;
+  background:#ddd;
+  padding:10px;
+  font-size:17px;
 }
 
+/* logo or main heading */
+#logo
+{
+  font-size:20px;
+  font-weight:bolder;
+  color:#00004d;
+  letter-spacing:2px;
+}
+
+/* navigation links*/
+#link a
+{
+  color:#01325d;
+  margin:0 20px 0 10px;
+  letter-spacing:1.5px;
+}
+
+.link1 a:hover
+{
+  color:#00004d;
+  font-weight: 500;
+}
+
+/* navigation link with right border */
+#first-link
+{
+  padding-right:6px;
+  border-right:solid 1px #ccc;
+}
+
+/* sign up link button and toggle button */
+#button-link ,#toogle-button
+{
+  color:#f2f2f2;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0,0,0,.2);
+  border-radius: 2px;
+  background-color: #0061a8;
+  line-height: 17px;
+}
+
+#button-link a
+{
+  color:#f2f2f2;
+}
+
+#button-link:hover{
+  color:#f2f2f2 ;
+  background-color: #00004d;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: transparent; 
+}
+
+.profile{
+  padding-right:0px;
+  border-right:solid 1px #ccc;
+}
+
+/*-----------Intro Heading----------*/
 #intro-content {
   text-align: center;
-  /* margin-top: 2%; */
 }
 #intro-content h1 {
   font-size: 3rem;
@@ -35,18 +85,31 @@ body {
 #postoblog {
   color: #0061a8;
 }
+
+/*-------------Post Card-------------*/
 .post-box {
   background-color: #e6e6e6;
   padding: 2%;
-  border-radius: 30px;
-  /* margin-top: 2%; */
   box-shadow: 2px 5px 14px #eeeeee;
+  margin: 4rem 8rem;
 }
 .post-para {
-  padding-bottom: 1.5%;
-  font-size: 1.6rem;
+  /* padding-bottom: 2%; */
+  font-size: 1.8rem;
+  /* line-height: 2rem; */
 }
+.card-body{
+  padding: 0 4rem;
+}
+.card-subtitle a{
+  color: #0061a8;
+  text-decoration: none;
+  font-size: 16px;
+}
+
 .rm-btn {
+  display: block;
+  width: fit-content;
   -webkit-border-radius: 9;
   -moz-border-radius: 9;
   border-radius: 9px;
@@ -70,24 +133,26 @@ body {
   transition-duration: 0.3s;
 }
 
-.footer-padding {
-  padding-bottom: 60px;
-}
+
+/*---------Footer---------*/
+
 
 .footer {
-  position: fixed;
   text-align: center;
-  bottom: 0;
   width: 100%;
   height: 60px;
   background-color: #0061a8;
+  padding: 3rem;
+  position: fixed;
+  bottom: 0;
 }
 
 .footer p {
-  margin-top: 25px;
   font-size: 12px;
   color: #fff;
+  padding-bottom: 0%;
 }
+
 
 .my-2 {
   margin-top: 2%;

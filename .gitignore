@@ -4,6 +4,8 @@ config.js
 
 .DS_Store
 
+.txt
+
 # Logs
 logs
 *.log

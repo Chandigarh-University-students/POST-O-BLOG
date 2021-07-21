@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script> -->
@@ -14,17 +17,48 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default ">
-        <div class="container">
+    <nav id="postoblog-logo" class="navbar">
+        <div class="container-fluid">
             <div class="navbar-header">
-                <p class="navbar-brand">POST-O-BLOG</p>
+                <button type="button" id="toogle-button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#myNavbar">
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </button>
+                <a id="logo" class="navbar-brand" href="/">POST-O-BLOG</a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <!-- 6 -->
-                <li id="home"><a href="/">HOME</a></li>
-                <li id="signup"><a href="/signup">SIGN UP</a></li>
-                <li id="signin"><a href="/signin">SIGN IN</a></li>
-                <li id="contact"><a href="/contact">CONTACT US</a></li>
-            </ul>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                    <% if (authenticated) { %>
+                        <ul id="link" class="nav navbar-nav navbar-right">
+                            <li class="nav-item link1" class="dropdown" id="first-link">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">More <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item link1"><a href="#">Home</a></li>
+                                    <li class="nav-item link1"><a href="#">About</a></li>
+                                    <li class="nav-item link1"><a href="#">Contact</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item link1 profile"><a href="/profile">Profile</a></li>
+                            <li class="nav-item link1"><a href="/logout">Log Out</a></li>
+                            <li class="nav-item" id="button-link"><a href="/compose ">Compose</a></li>
+                        </ul>
+                        <% } else { %>
+                            <ul id="link" class="nav navbar-nav navbar-right">
+                                <li class="nav-item link1" class="dropdown" id="first-link">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">More <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item link1"><a href="#">Home</a></li>
+                                        <li class="nav-item link1"><a href="#">About</a></li>
+                                        <li class="nav-item link1"><a href="#">Contact</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item link1"><a href="/signin">
+                                        Sign In
+                                    </a></li>
+                                <li class="nav-item" id="button-link"><a href="/signup">
+                                        Sign Up
+                                    </a></li>
+                            </ul>
+                            <% } %>
+            </div>
         </div>
     </nav>
