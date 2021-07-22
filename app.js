@@ -1,4 +1,5 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "./.env") });
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -13,23 +14,25 @@ app.use(express.urlencoded());
 app.use(express.static("public"));
 
 //--------Session setup----------
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
-
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 //--------Initialize passport------
 app.use(passport.initialize());
 
-
 //--------Use Passport to deal with sessions--------
 app.use(passport.session());
 
-
 //---------DB connection---------
-mongoose.connect(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.ATLAS_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 mongoose.set("useCreateIndex", true);
 
 const db = mongoose.connection;
@@ -37,7 +40,6 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   console.log("connected");
 });
-
 
 //--------Post Schema--------
 const postSchema = new mongoose.Schema({
@@ -51,7 +53,6 @@ const postSchema = new mongoose.Schema({
 });
 const Post = mongoose.model("Post", postSchema);
 
-
 //--------User Schema--------
 const userSchema = new mongoose.Schema({
   userHandle: String,
@@ -59,65 +60,59 @@ const userSchema = new mongoose.Schema({
   password: String,
   // googleId: String,
   posts: [postSchema],
-  likedPosts: [String]
+  likedPosts: [String],
 });
 
 userSchema.plugin(passportLocalMongoose);
 
 const User = mongoose.model("User", userSchema);
 
-
 passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
-
-
 //-----------Routes requests-----------
 
 //get Home
-app.get('/', (req, res) => {
-    Post.find((err, posts) => {
-        posts.sort((a, b) => {
-          return new Date(b.timestamp) - new Date(a.timestamp);
-        });
+app.get("/", (req, res) => {
+  Post.find((err, posts) => {
+    posts.sort((a, b) => {
+      return new Date(b.timestamp) - new Date(a.timestamp);
+    });
 
-        if(req.isAuthenticated()) {
-            User.findById(req.user.id, (err, foundUser) => {
-                if(err) {
-                    console.log(err);
-                    res.send("There was an error. Please try again.");
-                } else {
-                    res.render("home", {
-                      newPost: posts,
-                      authenticated: req.isAuthenticated(),
-                      userLikedPosts: foundUser.likedPosts,
-                    });
-                }
-            });
-
+    if (req.isAuthenticated()) {
+      User.findById(req.user.id, (err, foundUser) => {
+        if (err) {
+          console.log(err);
+          res.send("There was an error. Please try again.");
         } else {
-            res.render("home", {
-              newPost: posts,
-              authenticated: req.isAuthenticated(),
-              userLikedPosts: null,
-            });
+          res.render("home", {
+            newPost: posts,
+            authenticated: req.isAuthenticated(),
+            userLikedPosts: foundUser.likedPosts,
+          });
         }
-    })
+      });
+    } else {
+      res.render("home", {
+        newPost: posts,
+        authenticated: req.isAuthenticated(),
+        userLikedPosts: null,
+      });
+    }
+  });
 });
 
 //get SignIn
-app.get("/signin", function(req, res){
-  res.render("signin", { authenticated : req.isAuthenticated() });
+app.get("/signin", function (req, res) {
+  res.render("signin", { authenticated: req.isAuthenticated() });
 });
 
 //get SignUp
-app.get("/signup", function(req, res){
+app.get("/signup", function (req, res) {
   res.render("signup", { authenticated: req.isAuthenticated() });
 });
-
 
 //post SignUp
 app.post("/signup", (req, res) => {
@@ -162,7 +157,6 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-
 //get Compose
 app.get("/compose", (req, res) => {
   if (req.isAuthenticated()) {
@@ -173,36 +167,46 @@ app.get("/compose", (req, res) => {
 });
 
 //post Compose
-app.post('/compose', (req, res) => {
-    User.findById(req.user.id, (err, foundUser)=> {
-        if(err) {
-            console.log(err);
-            res.send('Please log in to post.');
-        } else {
+app.post("/compose", (req, res) => {
+  User.findById(req.user.id, (err, foundUser) => {
+    if (err) {
+      console.log(err);
+      res.send("Please log in to post.");
+    } else {
+      const today = new Date();
+      const dateTime =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate() +
+        " " +
+        today.getHours() +
+        ":" +
+        today.getMinutes() +
+        ":" +
+        today.getSeconds();
 
-            const today = new Date();
-            const dateTime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const post = new Post({
+        title: req.body.postTitle,
+        content: req.body.postBody,
+        account: foundUser.userHandle,
+        email: foundUser.username,
+        authorId: req.user.id,
+        timestamp: dateTime,
+        likes: 0,
+      });
 
-            const post = new Post ({
-                title: req.body.postTitle,
-                content: req.body.postBody,
-                account: foundUser.userHandle,
-                email: foundUser.username,
-                authorId: req.user.id,
-                timestamp: dateTime,
-                likes: 0
-            });
+      post.save();
 
-            post.save();
+      foundUser.posts.push(post);
 
-            foundUser.posts.push(post);
-
-            foundUser.save(() => {
-                res.redirect('/');
-                console.log(foundUser.posts);
-            });
-        }
-    });
+      foundUser.save(() => {
+        res.redirect("/");
+        console.log(foundUser.posts);
+      });
+    }
+  });
 });
 
 //get Profile of others
@@ -282,7 +286,6 @@ app.get("/profile/:profileId", (req, res) => {
   });
 });
 
-
 //get Particular Post
 app.get("/posts/:postId", (req, res) => {
   const requestedPostId = req.params.postId;
@@ -306,7 +309,7 @@ app.get("/posts/:postId", (req, res) => {
                 ) {
                   res.render("post", {
                     id: foundPost._id,
-                    authorId:foundPost.authorId,
+                    authorId: foundPost.authorId,
                     title: foundPost.title,
                     author: foundPost.account,
                     content: foundPost.content,
@@ -316,7 +319,7 @@ app.get("/posts/:postId", (req, res) => {
                 } else {
                   res.render("post", {
                     id: foundPost._id,
-                    authorId:foundPost.authorId,
+                    authorId: foundPost.authorId,
                     title: foundPost.title,
                     author: foundPost.account,
                     content: foundPost.content,
@@ -332,7 +335,7 @@ app.get("/posts/:postId", (req, res) => {
         } else {
           res.render("post", {
             id: foundPost._id,
-            authorId:foundPost.authorId,
+            authorId: foundPost.authorId,
             title: foundPost.title,
             author: foundPost.account,
             content: foundPost.content,
@@ -392,7 +395,7 @@ app.post("/like", (req, res) => {
   }
 });
 
-app.get("/contact", (req, res)=>{
+app.get("/contact", (req, res) => {
   res.render("contact", { authenticated: req.isAuthenticated() });
 });
 
