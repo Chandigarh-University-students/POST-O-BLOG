@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   // googleId: String,
   posts: [postSchema],
-  postsLiked: [String]
+  likedPosts: [String]
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -74,37 +74,49 @@ passport.deserializeUser(User.deserializeUser());
 
 //-----------Routes requests-----------
 
+//get Home
 app.get('/', (req, res) => {
     Post.find((err, posts) => {
+        posts.sort((a, b) => {
+          return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+
         if(req.isAuthenticated()) {
             User.findById(req.user.id, (err, foundUser) => {
                 if(err) {
                     console.log(err);
                     res.send("There was an error. Please try again.");
                 } else {
-                    res.render('home', {newPost: posts, authenticated: req.isAuthenticated()});
+                    res.render("home", {
+                      newPost: posts,
+                      authenticated: req.isAuthenticated(),
+                      userLikedPosts: foundUser.likedPosts,
+                    });
                 }
             });
 
         } else {
-            res.render('home', {newPost:posts, authenticated: req.isAuthenticated()});
+            res.render("home", {
+              newPost: posts,
+              authenticated: req.isAuthenticated(),
+              userLikedPosts: null,
+            });
         }
     })
 });
 
-
+//get SignIn
 app.get("/signin", function(req, res){
   res.render("signin", { authenticated : req.isAuthenticated() });
 });
 
+//get SignUp
 app.get("/signup", function(req, res){
   res.render("signup", { authenticated: req.isAuthenticated() });
 });
 
-app.get("/compose", function (req, res) {
-  res.render("compose", { authenticated: req.isAuthenticated() });
-});
 
+//post SignUp
 app.post("/signup", (req, res) => {
   User.register(
     { username: req.body.username, userHandle: req.body.userhandle },
@@ -122,6 +134,7 @@ app.post("/signup", (req, res) => {
   );
 });
 
+//post SignIn
 app.post("/signin", (req, res) => {
   const user = new User({
     username: req.body.username,
@@ -140,12 +153,14 @@ app.post("/signin", (req, res) => {
   });
 });
 
-
+//get LogOut
 app.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
 
+
+//get Compose
 app.get("/compose", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("compose", { authenticated: req.isAuthenticated() });
@@ -154,6 +169,7 @@ app.get("/compose", (req, res) => {
   }
 });
 
+//post Compose
 app.post('/compose', (req, res) => {
     User.findById(req.user.id, (err, foundUser)=> {
         if(err) {
@@ -184,6 +200,201 @@ app.post('/compose', (req, res) => {
             });
         }
     });
+});
+
+//get Profile of others
+app.get("/profile", (req, res) => {
+  if (req.isAuthenticated()) {
+    User.findById(req.user.id, (err, foundUser) => {
+      if (err) {
+        console.log(err);
+        res.send("Please log in to see your profile.");
+      } else {
+        if (foundUser) {
+          console.log(foundUser.posts.length);
+          res.render("profile", {
+            newPost: foundUser.posts,
+            userName: foundUser.userhandle,
+            authenticated: req.isAuthenticated(),
+            visitor: false,
+          });
+        } else {
+          res.send("Please log in to see your profile.");
+        }
+      }
+    });
+  } else {
+    res.send("Please log in to see your profile.");
+  }
+});
+
+//get profile of own
+app.get("/profile/:profileId", (req, res) => {
+  const profileId = req.params.profileId;
+  console.log(profileId);
+  User.findById(profileId, (err, foundUser) => {
+    if (err) {
+      console.log(err);
+      res.send("User not found");
+    } else {
+      if (req.isAuthenticated()) {
+        User.findById(req.user.id, (err, foundMyself) => {
+          if (err) {
+            console.log(err);
+            res.send("Please login to see this profile");
+          } else {
+            if (foundMyself) {
+              if (
+                JSON.stringify(foundMyself._id) ===
+                JSON.stringify(foundUser._id)
+              ) {
+                res.render("profile", {
+                  newPost: foundUser.posts,
+                  userName: foundUser.userHandle,
+                  authenticated: req.isAuthenticated(),
+                  visitor: false,
+                });
+              } else {
+                res.render("profile", {
+                  newPost: foundUser.posts,
+                  userName: foundUser.userHandle,
+                  authenticated: req.isAuthenticated(),
+                  visitor: true,
+                });
+              }
+            } else {
+              res.send("Please login to see this profile");
+            }
+          }
+        });
+      } else {
+        res.render("profile", {
+          newPost: foundUser.posts,
+          userName: foundUser.userHandle,
+          authenticated: req.isAuthenticated(),
+          visitor: true,
+        });
+      }
+    }
+  });
+});
+
+
+//get Particular Post
+app.get("/posts/:postId", (req, res) => {
+  const requestedPostId = req.params.postId;
+  Post.findById(requestedPostId, (err, foundPost) => {
+    if (err) {
+      console.log(err);
+      res.send("There was an error retrieving the post.");
+    } else {
+      if (foundPost) {
+        if (req.isAuthenticated()) {
+          User.findById(req.user.id, (err, foundMyself) => {
+            if (err) {
+              console.log(err);
+              res.send("Please login to see this post");
+            } else {
+              if (foundMyself) {
+                console.log(foundPost.post);
+                if (
+                  JSON.stringify(foundMyself._id) ===
+                  JSON.stringify(foundPost.authorId)
+                ) {
+                  res.render("post", {
+                    id: foundPost._id,
+                    authorId:foundPost.authorId,
+                    title: foundPost.title,
+                    author: foundPost.account,
+                    content: foundPost.content,
+                    visitor: false,
+                    authenticated: req.isAuthenticated(),
+                  });
+                } else {
+                  res.render("post", {
+                    id: foundPost._id,
+                    authorId:foundPost.authorId,
+                    title: foundPost.title,
+                    author: foundPost.account,
+                    content: foundPost.content,
+                    visitor: true,
+                    authenticated: req.isAuthenticated(),
+                  });
+                }
+              } else {
+                res.send("Please login to see this post");
+              }
+            }
+          });
+        } else {
+          res.render("post", {
+            id: foundPost._id,
+            authorId:foundPost.authorId,
+            title: foundPost.title,
+            author: foundPost.account,
+            content: foundPost.content,
+            visitor: true,
+            authenticated: req.isAuthenticated(),
+          });
+        }
+      }
+    }
+  });
+});
+
+//post Like
+app.post("/like", (req, res) => {
+  const liked = req.body.liked;
+  const postId = req.body.postId;
+
+  if (req.isAuthenticated()) {
+    User.findById(req.user.id, (err, foundUser) => {
+      if (err) {
+        console.log(err);
+        res.send("There was an error. Please try again.");
+      } else {
+        if (liked === "true") {
+          foundUser.likedPosts.push(postId);
+          foundUser.save();
+          Post.findById(postId, (err, foundPost) => {
+            if (err) {
+              console.log(err);
+              res.send("There was an error");
+            } else {
+              foundPost.likes++;
+              console.log(foundPost.likes);
+              foundPost.save();
+              console.log(foundPost.likes);
+            }
+          });
+          res.redirect("/");
+        } else {
+          foundUser.likedPosts.splice(foundUser.likedPosts.indexOf(postId), 1);
+          foundUser.save();
+          Post.findById(postId, (err, foundPost) => {
+            if (err) {
+              console.log(err);
+              res.send("There was an error");
+            } else {
+              foundPost.likes--;
+              console.log(foundPost.likes);
+              foundPost.save();
+              console.log(foundPost.likes);
+            }
+          });
+          res.redirect("/");
+        }
+      }
+    });
+  }
+});
+
+app.get("/contact", (req, res)=>{
+  res.render("contact", { authenticated: req.isAuthenticated() });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about", { authenticated: req.isAuthenticated() });
 });
 
 app.listen(3000, function () {

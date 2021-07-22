@@ -12,10 +12,30 @@
         <% newPost.forEach(function(post){ %>
             <div class="card post-box">
                 <div class="card-body">
-                    <h2 class="card-title post-title"> <%= post.title %></h2>
-                    <h6 class="card-subtitle mb-2"> <a href="#"> <em><%= "@" + post.account %></em> </a></h6>
-                        <p class="card-text post-para"><%= post.content %></p>
-                        <a class="btn rm-btn" href="/posts/<%= post._id %> " role="button">Read more</a>
+                    <h2 class="card-title post-title"> <a class="post-title" href="/posts/<%=post._id%> "><%= post.title %></a></h2>
+                    <h6 class="card-subtitle mb-2"> <a href="/profile/<%=post.authorId%> "> <em><%= "@" + post.account %></em> </a></h6>
+                        <p class="card-text post-para"><%= post.content.substring(0,200) + "..." %></p>
+                        <a class="btn rm-btn" href="/posts/<%=post._id%> " role="button">Read more</a>
+                    <% if(authenticated) { %>
+                        <form class="like-btn" action="/like" method="post">
+                            <% if(userLikedPosts.includes(post._id)) { %>
+                                <input type="hidden" name="postId" value="<%=post._id%>">
+                                <button class='btn  btn-xs' type="submit" name="liked" value='false'><i class="fa fa-thumbs-up liked"></i> Liked</button><span>
+                                    <%=post.likes%> people like this.
+                                </span>
+                                <% } else { %>
+                                    <input type="hidden" name="postId" value="<%=post._id%>">
+                                    <button class='btn  btn-xs' type="submit" name="liked" value='true'><i class="fas fa-thumbs-up"></i>
+                                        Like</button> <span>
+                                        <%= post.likes%> people liked this.
+                                    </span>
+                                    <% } %>
+                        </form>
+                        <% } else { %>
+                            <br><span>
+                                <%= post.likes%> people liked this.
+                            </span>
+                            <% } %>
                 </div>
             </div>
         <% }) %> 

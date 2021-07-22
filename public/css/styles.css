@@ -3,6 +3,10 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+a:hover{
+  text-decoration: none;
+}
+
 /*---------Header------------*/
 
 #postoblog-logo
@@ -98,6 +102,12 @@ body {
   font-size: 1.8rem;
   /* line-height: 2rem; */
 }
+
+.post-title{
+  text-decoration: none;
+  color: black;
+}
+
 .card-body{
   padding: 0 4rem;
 }
@@ -133,7 +143,29 @@ body {
   transition-duration: 0.3s;
 }
 
+.icon-red{
+  color: red;
+}
 
+.icon-large{
+  font-size: 20px;
+}
+
+.like-btn{
+  margin-top: 1%;
+}
+
+.liked{
+  color: #0061a8;
+}
+
+.post-content{
+  font-size: 16px;
+}
+
+.fa-whatsapp{
+  color: white;
+}
 /*---------Footer---------*/
 
 
