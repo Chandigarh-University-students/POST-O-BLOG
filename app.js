@@ -29,11 +29,15 @@ app.use(passport.session());
 
 
 //---------DB connection---------
-mongoose.connect("mongodb://localhost:27017/postoblogDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const uri = process.env.ATLAS_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set("useCreateIndex", true);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("connected");
+});
 
 
 //--------Post Schema--------
