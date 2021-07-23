@@ -80,7 +80,7 @@
 <br>
 <br>
 
-### Checkout the Deployed website : https://secure-oasis-17258.herokuapp.com/
+### Checkout the Deployed website : https://post-o-blog.herokuapp.com/
 
 <br>
 <br>
