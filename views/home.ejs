@@ -3,9 +3,13 @@
     <main id="intro-content" class="container my-2">
         <h1>Welcome To <span id="postoblog">POST-O-BLOG!</span>
         </h1>
+        <% if(authenticated) { %>
+            <h4>See what people are writing and <a href="/compose">compose</a> your own posts.</h4> 
+        <% } else { %> 
         <h4>See what people are writing and <a href="/signin">sign in</a> to share your own experiences, ideas and
             thoughts.
         </h4>
+        <% } %> 
     </main>
 
    
