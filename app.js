@@ -354,7 +354,8 @@ app.get("/posts/:postId", (req, res) => {
               res.send("Please login to see this post");
             } else {
               if (foundMyself) {
-                console.log(foundPost.post);
+                // console.log("length = " + foundPost.post);
+                console.log("found myself");
                 if (
                   JSON.stringify(foundMyself._id) ===
                   JSON.stringify(foundPost.authorId)
@@ -445,6 +446,60 @@ app.post("/like", (req, res) => {
       }
     });
   }
+});
+
+//delete post
+app.post("/delete", (req, res) => {
+  const postId = req.body.postId;
+
+  Post.findById(postId, (err, foundPost) => {
+    if (err) {
+      console.log(err);
+      res.send("Post not found.");
+    } else {
+      if (foundPost) {
+        const userId = foundPost.authorId;
+
+        User.findById(userId, (err, foundUser) => {
+          if (err) {
+            console.log(err);
+            res.send("There was an error. Please try again.");
+          } else {
+            if (foundUser) {
+              for (let i = 0; i < foundUser.posts.length; i++) {
+                if (
+                  JSON.stringify(foundUser.posts[i]["_id"]) ===
+                  JSON.stringify(postId)
+                ) {
+                  console.log(foundUser.posts.length);
+                  foundUser.posts.splice(i, 1);
+                  foundUser.save();
+                  console.log(foundUser.posts.length);
+                  break;
+                }
+              }
+            } else {
+              res.send("User not found");
+            }
+          }
+        });
+
+        Post.findByIdAndDelete(postId, (err, deletedPost) => {
+          if (err) {
+            console.log(err);
+            res.send("There was an error. Please try again.");
+          } else {
+            if (deletedPost) {
+              console.log(deletedPost);
+              res.redirect("/profile");
+            }
+          }
+        });
+      } else {
+        res.send("Post not found");
+      }
+    }
+  });
 });
 
 app.get("/contact", (req, res) => {

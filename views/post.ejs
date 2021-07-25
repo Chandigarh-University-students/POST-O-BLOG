@@ -3,6 +3,11 @@
 <h2><%= title %></h2>
 <h6 class="card-subtitle"> <a href="/profile/<%=authorId%> "> <em><%= "@" + author %></em> </a></h6>
 <p class="post-content"><%= content %> </p>
+<% if(!visitor){ %>
+    <form action="/delete" method="post">
+        <button class='btn btn-danger btn-lg delete-btn' type="submit" name="postId" value='<%=id%>'>Delete Post</button>
+    </form>
+<% } %> 
 </div>
 
 

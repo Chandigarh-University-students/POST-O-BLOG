@@ -159,10 +159,6 @@ a:hover{
   font-size: 16px;
 }
 
-.fa-whatsapp{
-  color: white;
-}
-
 .google-signup{
   -webkit-border-radius: 9;
   -moz-border-radius: 9;
@@ -190,6 +186,12 @@ a:hover{
 .my-name{
   color: #0061a8;
 }
+
+.delete-btn{
+  margin-top: 100px;
+}
+
+
 /*---------Footer---------*/
 
 
