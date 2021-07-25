@@ -119,7 +119,7 @@ a:hover{
 
 .rm-btn {
   display: block;
-  width: fit-content;
+  /* width: fit-content; */
   -webkit-border-radius: 9;
   -moz-border-radius: 9;
   border-radius: 9px;
@@ -143,10 +143,6 @@ a:hover{
   transition-duration: 0.3s;
 }
 
-.icon-red{
-  color: red;
-}
-
 .icon-large{
   font-size: 20px;
 }
@@ -165,6 +161,34 @@ a:hover{
 
 .fa-whatsapp{
   color: white;
+}
+
+.google-signup{
+  -webkit-border-radius: 9;
+  -moz-border-radius: 9;
+  border-radius: 9px;
+  -webkit-box-shadow: 2px 3px 6px #a6a6a6;
+  -moz-box-shadow: 2px 3px 6px #a6a6a6;
+  box-shadow: 2px 3px 6px #a6a6a6;
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  font-size: 14px;
+  background: rgb(211, 38, 38);
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border: 0px;
+}
+
+.btn-or{
+  margin: 5px;
+}
+
+.read-more{
+  width: fit-content;
+}
+
+.my-name{
+  color: #0061a8;
 }
 /*---------Footer---------*/
 

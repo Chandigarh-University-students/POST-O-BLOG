@@ -19,7 +19,7 @@
                     <h2 class="card-title post-title"> <a class="post-title" href="/posts/<%=post._id%> "><%= post.title %></a></h2>
                     <h6 class="card-subtitle mb-2"> <a href="/profile/<%=post.authorId%> "> <em><%= "@" + post.account %></em> </a></h6>
                         <p class="card-text post-para"><%= post.content.substring(0,200) + "..." %></p>
-                        <a class="btn rm-btn" href="/posts/<%=post._id%> " role="button">Read more</a>
+                        <a class="btn read-more rm-btn" href="/posts/<%=post._id%> " role="button">Read more</a>
                     <% if(authenticated) { %>
                         <form class="like-btn" action="/like" method="post">
                             <% if(userLikedPosts.includes(post._id)) { %>

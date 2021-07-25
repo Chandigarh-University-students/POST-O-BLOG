@@ -1,8 +1,9 @@
 <%- include('partials/header') -%>
-    <% if(!visitor) { %> 
-    <h1 class="text-center"><em> My Blogs </em></h1>
+    <% if(!visitor) { %>
+    <h1 class="text-center my-name"><%= userName + "'s Profile" %> </h1> 
+    <h2 class="text-center"><em> My Blogs </em></h1>
     <% } else { %> 
-    <h1 class="text-center"><em><%= "@" + userName + "'s Blogs"%></em></h1>
+    <h2 class="text-center"><em><%= "@" + userName + "'s Blogs"%></em></h1>
     <% } %> 
     <% newPost.forEach(function(post){ %>
         <div class="card post-box">
@@ -13,7 +14,7 @@
                 <p class="card-text post-para">
                     <%= post.content.substring(0,200) + "..." %>
                 </p>
-                <a class="btn rm-btn" href="/posts/<%=post._id%> " role="button">Read more</a>
+                <a class="btn read-more rm-btn" href="/posts/<%=post._id%> " role="button">Read more</a>
             </div>
         </div>
         <% }) %>

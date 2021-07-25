@@ -7,6 +7,10 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const findOrCreate = require("mongoose-findorcreate");
+
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -58,19 +62,43 @@ const userSchema = new mongoose.Schema({
   userHandle: String,
   email: String,
   password: String,
-  // googleId: String,
+  googleId: String,
   posts: [postSchema],
   likedPosts: [String],
 });
 
 userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(findOrCreate);
 
 const User = mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/google/callback",
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({  googleId: profile.id, userHandle: profile.displayName, username: profile.emails[0]['value'] }, function (err, user){
+        return cb(err, user);
+      });
+    }
+  )
+);
 
 //-----------Routes requests-----------
 
@@ -103,6 +131,17 @@ app.get("/", (req, res) => {
     }
   });
 });
+
+//Google Oauth
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/signin", successRedirect: "/" }),
+);
 
 //get SignIn
 app.get("/signin", function (req, res) {
@@ -209,7 +248,7 @@ app.post("/compose", (req, res) => {
   });
 });
 
-//get Profile of others
+//get Profile of own
 app.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
     User.findById(req.user.id, (err, foundUser) => {
@@ -218,10 +257,13 @@ app.get("/profile", (req, res) => {
         res.send("Please log in to see your profile.");
       } else {
         if (foundUser) {
-          console.log(foundUser.posts.length);
+          //console.log(foundUser.posts.length);
+          console.log("username = " + foundUser.userHandle);
+          profile_name = foundUser.userHandle;
+          profile_name.replace(/\s+/g, "");
           res.render("profile", {
             newPost: foundUser.posts,
-            userName: foundUser.userhandle,
+            userName: profile_name,
             authenticated: req.isAuthenticated(),
             visitor: false,
           });
@@ -235,7 +277,7 @@ app.get("/profile", (req, res) => {
   }
 });
 
-//get profile of own
+//get profile of others
 app.get("/profile/:profileId", (req, res) => {
   const profileId = req.params.profileId;
   console.log(profileId);
@@ -255,13 +297,16 @@ app.get("/profile/:profileId", (req, res) => {
                 JSON.stringify(foundMyself._id) ===
                 JSON.stringify(foundUser._id)
               ) {
+                console.log("username = " + foundUser.userHandle);
+                profile_name = foundUser.userHandle;
+                profile_name.replace(/\s+/g, "");
                 res.render("profile", {
                   newPost: foundUser.posts,
-                  userName: foundUser.userHandle,
+                  userName: profile_name,
                   authenticated: req.isAuthenticated(),
                   visitor: false,
                 });
-              } else {
+                } else {
                 res.render("profile", {
                   newPost: foundUser.posts,
                   userName: foundUser.userHandle,
