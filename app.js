@@ -89,13 +89,20 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: "https://post-o-blog.herokuapp.com/auth/google/callback",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     function (accessToken, refreshToken, profile, cb) {
-      User.findOrCreate({  googleId: profile.id, userHandle: profile.displayName, username: profile.emails[0]['value'] }, function (err, user){
-        return cb(err, user);
-      });
+      User.findOrCreate(
+        {
+          googleId: profile.id,
+          userHandle: profile.displayName,
+          username: profile.emails[0]["value"],
+        },
+        function (err, user) {
+          return cb(err, user);
+        }
+      );
     }
   )
 );
