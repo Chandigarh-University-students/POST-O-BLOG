@@ -9,13 +9,18 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-
+const methodOverride = require("method-override");
+const marked = require("marked");
+const createDomPurify = require("dompurify");
+const { JSDOM } = require("jsdom");
+const dompurify = createDomPurify(new JSDOM().window);
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded());
 app.use(express.static("public"));
+app.use(methodOverride("_method"));
 
 //--------Session setup----------
 app.use(
@@ -48,13 +53,25 @@ db.once("open", function () {
 //--------Post Schema--------
 const postSchema = new mongoose.Schema({
   title: String,
-  content: String,
+  content: String, 
+  markdown: String,
   account: String,
   email: String,
   authorId: String,
   timestamp: String,
   likes: Number,
+  sanitizedHtml:{
+    type: String,
+    required: true
+  }
 });
+
+postSchema.pre("validate", function(next){
+  if(this.markdown){
+    this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
+  }
+  next();
+})
 const Post = mongoose.model("Post", postSchema);
 
 //--------User Schema--------
@@ -147,7 +164,10 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/signin", successRedirect: "/" }),
+  passport.authenticate("google", {
+    failureRedirect: "/signin",
+    successRedirect: "/",
+  })
 );
 
 //get SignIn
@@ -236,6 +256,7 @@ app.post("/compose", (req, res) => {
       const post = new Post({
         title: req.body.postTitle,
         content: req.body.postBody,
+        markdown: req.body.postMarkdown,
         account: foundUser.userHandle,
         email: foundUser.username,
         authorId: req.user.id,
@@ -249,7 +270,6 @@ app.post("/compose", (req, res) => {
 
       foundUser.save(() => {
         res.redirect("/");
-        console.log(foundUser.posts);
       });
     }
   });
@@ -264,8 +284,6 @@ app.get("/profile", (req, res) => {
         res.send("Please log in to see your profile.");
       } else {
         if (foundUser) {
-          //console.log(foundUser.posts.length);
-          console.log("username = " + foundUser.userHandle);
           profile_name = foundUser.userHandle;
           profile_name.replace(/\s+/g, "");
           res.render("profile", {
@@ -287,7 +305,6 @@ app.get("/profile", (req, res) => {
 //get profile of others
 app.get("/profile/:profileId", (req, res) => {
   const profileId = req.params.profileId;
-  console.log(profileId);
   User.findById(profileId, (err, foundUser) => {
     if (err) {
       console.log(err);
@@ -304,7 +321,6 @@ app.get("/profile/:profileId", (req, res) => {
                 JSON.stringify(foundMyself._id) ===
                 JSON.stringify(foundUser._id)
               ) {
-                console.log("username = " + foundUser.userHandle);
                 profile_name = foundUser.userHandle;
                 profile_name.replace(/\s+/g, "");
                 res.render("profile", {
@@ -313,7 +329,7 @@ app.get("/profile/:profileId", (req, res) => {
                   authenticated: req.isAuthenticated(),
                   visitor: false,
                 });
-                } else {
+              } else {
                 res.render("profile", {
                   newPost: foundUser.posts,
                   userName: foundUser.userHandle,
@@ -354,8 +370,6 @@ app.get("/posts/:postId", (req, res) => {
               res.send("Please login to see this post");
             } else {
               if (foundMyself) {
-                // console.log("length = " + foundPost.post);
-                console.log("found myself");
                 if (
                   JSON.stringify(foundMyself._id) ===
                   JSON.stringify(foundPost.authorId)
@@ -366,6 +380,7 @@ app.get("/posts/:postId", (req, res) => {
                     title: foundPost.title,
                     author: foundPost.account,
                     content: foundPost.content,
+                    markdown: foundPost.sanitizedHtml,
                     visitor: false,
                     authenticated: req.isAuthenticated(),
                   });
@@ -376,6 +391,7 @@ app.get("/posts/:postId", (req, res) => {
                     title: foundPost.title,
                     author: foundPost.account,
                     content: foundPost.content,
+                    markdown: foundPost.sanitizedHtml,
                     visitor: true,
                     authenticated: req.isAuthenticated(),
                   });
@@ -392,6 +408,7 @@ app.get("/posts/:postId", (req, res) => {
             title: foundPost.title,
             author: foundPost.account,
             content: foundPost.content,
+            markdown: foundPost.sanitizedHtml,
             visitor: true,
             authenticated: req.isAuthenticated(),
           });
@@ -421,9 +438,7 @@ app.post("/like", (req, res) => {
               res.send("There was an error");
             } else {
               foundPost.likes++;
-              console.log(foundPost.likes);
               foundPost.save();
-              console.log(foundPost.likes);
             }
           });
           res.redirect("/");
@@ -436,9 +451,7 @@ app.post("/like", (req, res) => {
               res.send("There was an error");
             } else {
               foundPost.likes--;
-              console.log(foundPost.likes);
               foundPost.save();
-              console.log(foundPost.likes);
             }
           });
           res.redirect("/");
@@ -471,10 +484,8 @@ app.post("/delete", (req, res) => {
                   JSON.stringify(foundUser.posts[i]["_id"]) ===
                   JSON.stringify(postId)
                 ) {
-                  console.log(foundUser.posts.length);
                   foundUser.posts.splice(i, 1);
                   foundUser.save();
-                  console.log(foundUser.posts.length);
                   break;
                 }
               }
@@ -518,3 +529,5 @@ if (port == null || port == "") {
 app.listen(port, function () {
   console.log("Server has started successfully");
 });
+
+

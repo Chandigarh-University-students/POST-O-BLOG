@@ -1,5 +1,6 @@
 # POST-O-BLOG
 - A blogging website to create posts sharing thoughts, ideas, and experiences.
+- This website also supports Markdown to create different text styles and make your posts more readable.
 - Just create an account and compose your own posts and don't forget to like other's posts 😁.
 - Also get the collection of all of your posts in your profile.
 
@@ -26,10 +27,14 @@
 ```
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dompurify": "^2.3.0",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "jsdom": "^16.6.0",
+    "marked": "^2.1.3",
+    "method-override": "^3.0.0",
     "mongoose": "^5.13.3",
     "mongoose-findorcreate": "^3.0.0",
     "passport": "^0.4.1",
@@ -89,4 +94,5 @@
 
 ## CONTRIBUTING
 This project is open for contributions so Pull requests and Issues are welcome.
+
 

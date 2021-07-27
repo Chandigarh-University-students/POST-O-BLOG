@@ -79,6 +79,10 @@ a:hover{
   border-right:solid 1px #ccc;
 }
 
+.d-inline{
+  display: inline;
+}
+
 /*-----------Intro Heading----------*/
 #intro-content {
   text-align: center;
@@ -119,7 +123,7 @@ a:hover{
 
 .rm-btn {
   display: block;
-  /* width: fit-content; */
+  width: fit-content;
   -webkit-border-radius: 9;
   -moz-border-radius: 9;
   border-radius: 9px;
@@ -159,28 +163,12 @@ a:hover{
   font-size: 16px;
 }
 
-.google-signup{
-  -webkit-border-radius: 9;
-  -moz-border-radius: 9;
-  border-radius: 9px;
-  -webkit-box-shadow: 2px 3px 6px #a6a6a6;
-  -moz-box-shadow: 2px 3px 6px #a6a6a6;
-  box-shadow: 2px 3px 6px #a6a6a6;
-  font-family: "Montserrat", sans-serif;
-  color: #ffffff;
-  font-size: 14px;
-  background: rgb(211, 38, 38);
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-  border: 0px;
+.btn-danger>a {
+  color: white;
 }
 
 .btn-or{
   margin: 5px;
-}
-
-.read-more{
-  width: fit-content;
 }
 
 .my-name{
@@ -191,6 +179,16 @@ a:hover{
   margin-top: 100px;
 }
 
+.markdown{
+  border: #ddd 2px solid;
+  padding: 20px;
+  margin-top: 30px;
+  background-color: #ddd;
+}
+
+.home-body{
+  padding:0 0 5% 0;
+}
 
 /*---------Footer---------*/
 

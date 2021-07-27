@@ -9,8 +9,12 @@
         </div>
 
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">POST CONTENT</label>
-            <textarea name="postBody" class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
+            <label for="postbody">POST DESCRIPTION</label>
+            <input type="text" name="postBody" class="form-control" id="postbody">
+        </div>
+        <div class="form-group">
+            <label for="postmarkdown">POST MARKDOWN</label>
+            <textarea name="postMarkdown" class="form-control" id="postmarkdown" rows="10"></textarea>
         </div>
         <button type="submit" class="rm-btn">Submit</button>
 
@@ -19,4 +23,4 @@
         <h1>Please <a href="/signin">Sign In </a>to compose your own post </h1>
     <% } %> 
 
-    <%- include("partials/footer"); -%>
+<%- include("partials/footer"); -%>
