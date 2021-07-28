@@ -6,8 +6,6 @@
 
 <br>
 
-![gif1](https://github.com/saloni-15/POST-O-BLOG/blob/main/assets/1.gif)
-
 ### Checkout the Deployed website : https://post-o-blog.herokuapp.com/
 
 <br>
