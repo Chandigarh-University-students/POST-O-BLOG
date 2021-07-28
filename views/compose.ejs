@@ -1,20 +1,20 @@
 <%- include("partials/header"); -%>
 <div class="container-fluid home-body">
     <% if (authenticated) { %>
-    <h3 class="container my-2">Compose your own post.</h3>
+    <h1 class="container my-2">Compose your own post.</h1>
 
     <form action="/compose" method="POST" class="container compose-form my-2">
         <div class="form-group">
-            <label for="post-title">POST TITLE</label>
+            <label for="post-title">Title</label>
             <input type="text" name="postTitle" class="form-control" id="post-title">
         </div>
 
         <div class="form-group">
-            <label for="postbody">POST DESCRIPTION</label>
+            <label for="postbody">Description</label>
             <input type="text" name="postBody" class="form-control" id="postbody">
         </div>
         <div class="form-group">
-            <label for="postmarkdown">POST MARKDOWN</label>
+            <label for="postmarkdown">Markdown</label>
             <textarea name="postMarkdown" class="form-control" id="postmarkdown" rows="15"></textarea>
         </div>
         <button type="submit" class="rm-btn">Submit</button>

@@ -6,6 +6,13 @@
 
 <br>
 
+![gif1](https://github.com/saloni-15/POST-O-BLOG/blob/main/assets/1.gif)
+
+### Checkout the Deployed website : https://post-o-blog.herokuapp.com/
+
+<br>
+<br>
+
 ## TECHNOLOGY USED
 ![HTML](https://img.shields.io/badge/-HTML-333333?style=flat&logo=HTML5)
 ![CSS](https://img.shields.io/badge/-CSS-333333?style=flat&logo=CSS3&logoColor=1572B6)
@@ -87,10 +94,7 @@
 <br>
 <br>
 
-### Checkout the Deployed website : https://post-o-blog.herokuapp.com/
 
-<br>
-<br>
 
 ## CONTRIBUTING
 This project is open for contributions so Pull requests and Issues are welcome.

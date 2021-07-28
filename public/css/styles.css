@@ -1,85 +1,106 @@
+html {
+  height: 100%;
+}
 body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   margin: auto;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Public Sans", sans-serif;
 }
 
-a:hover{
+.home-body-bg {
+  background: url("./images/background2.png");
+  background-repeat: no-repeat;
+  background-size: 900px;
+  background-attachment: fixed;
+  background-position: bottom;
+}
+
+a:hover {
   text-decoration: none;
+}
+
+h1,
+h2 {
+  font-family: "Signika Negative", sans-serif;
 }
 
 /*---------Header------------*/
 
-#postoblog-logo
-{
-  border-radius:0px;
-  background:#ddd;
-  padding:10px;
-  font-size:17px;
+#postoblog-logo {
+  border-radius: 0px;
+  background: #185adb;
+  padding: 10px;
+  font-size: 17px;
+  margin-bottom: 0px;
 }
 
 /* logo or main heading */
-#logo
-{
-  font-size:20px;
-  font-weight:bolder;
-  color:#00004d;
-  letter-spacing:2px;
+#logo {
+  font-size: 20px;
+  font-weight: bolder;
+  color: #fff;
+  letter-spacing: 2px;
 }
 
 /* navigation links*/
-#link a
-{
-  color:#01325d;
-  margin:0 20px 0 10px;
-  letter-spacing:1.5px;
+#link a {
+  color: #fff;
+  margin: 0 20px 0 10px;
+  letter-spacing: 1.5px;
 }
 
-.link1 a:hover
-{
-  color:#00004d;
-  font-weight: 500;
+.link1>a:hover {
+  font-weight: 600;
+}
+
+.dropdown-menu .dropdown-item > a:hover {
+  background-image: none;
+  background-color: #185adb !important;
 }
 
 /* navigation link with right border */
-#first-link
-{
-  padding-right:6px;
-  border-right:solid 1px #ccc;
+#first-link {
+  padding-right: 6px;
+  border-right: solid 1px #ccc;
 }
 
 /* sign up link button and toggle button */
-#button-link ,#toogle-button
-{
-  color:#f2f2f2;
+#button-link,
+#toogle-button {
+  color: #f2f2f2;
   border-style: solid;
   border-width: 1px;
-  border-color: rgba(0,0,0,.2);
-  border-radius: 2px;
-  background-color: #0061a8;
+  border-color: #f2f2f2;
+  border-radius: 25px;
+  background-color: #0039aa;
   line-height: 17px;
 }
 
-#button-link a
-{
-  color:#f2f2f2;
+#button-link a {
+  color: #f2f2f2;
 }
 
-#button-link:hover{
-  color:#f2f2f2 ;
-  background-color: #00004d;
+#button-link:hover {
+  border-radius: 30px;
+  background-color: #185adb;
 }
 
-.nav>li>a:focus, .nav>li>a:hover {
-    text-decoration: none;
-    background-color: transparent; 
+.nav > li > a:focus,
+.nav > li > a:hover {
+  text-decoration: none;
+  background-color: transparent;
 }
 
-.profile{
-  padding-right:0px;
-  border-right:solid 1px #ccc;
+.profile {
+  padding-right: 0px;
+  border-right: solid 1px #ccc;
 }
 
-.d-inline{
+.d-inline {
   display: inline;
 }
 
@@ -88,37 +109,47 @@ a:hover{
   text-align: center;
 }
 #intro-content h1 {
-  font-size: 3rem;
-}
-#postoblog {
-  color: #0061a8;
+  font-size: 3.5rem;
+  font-weight: bold;
 }
 
-/*-------------Post Card-------------*/
+#intro-content h4 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+#postoblog,
+#intro-content a, #intro-content a:hover, .post-title:hover, .liked, .my-name   {
+  color: #185adb;
+}
+
+
+/*-------------Body-------------*/
 .post-box {
-  background-color: #e6e6e6;
   padding: 2%;
-  box-shadow: 2px 5px 14px #eeeeee;
   margin: 4rem 8rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(9.5px);
+  -webkit-backdrop-filter: blur(9.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .post-para {
-  /* padding-bottom: 2%; */
-  font-size: 1.8rem;
-  /* line-height: 2rem; */
+  font-size: 2rem;
 }
-
-.post-title{
-  text-decoration: none;
+.post-title {
   color: black;
+  font-size: 3rem;
 }
-
-.card-body{
+ard-body {
   padding: 0 4rem;
 }
-.card-subtitle a{
-  color: #0061a8;
-  text-decoration: none;
+.card-subtitle a {
+  color: #185adb;
   font-size: 16px;
+  font-weight: bold;
 }
 
 .rm-btn {
@@ -130,85 +161,67 @@ a:hover{
   -webkit-box-shadow: 2px 3px 6px #a6a6a6;
   -moz-box-shadow: 2px 3px 6px #a6a6a6;
   box-shadow: 2px 3px 6px #a6a6a6;
-  font-family: "Montserrat", sans-serif;
   color: #ffffff;
   font-size: 14px;
-  background: #0061a8;
+  background: #185adb;
   padding: 10px 20px 10px 20px;
-  text-decoration: none;
-  border: 0px;
+  border: 2px solid transparent;
 }
 
 .rm-btn:hover {
-  text-decoration: none;
-  color: #0061a8;
-  background-color: #dddddd;
-  border: 2px solid #0061a8;
-  transition-duration: 0.3s;
+  color: #185adb;
+  background-color: #fff;
+  border: 2px solid #185adb;
 }
 
-.icon-large{
+.icon-large {
   font-size: 20px;
 }
 
-.like-btn{
+.like-btn {
   margin-top: 1%;
 }
 
-.liked{
-  color: #0061a8;
-}
-
-.post-content{
+.post-content {
   font-size: 16px;
 }
 
-.btn-danger>a {
+.btn-danger > a {
   color: white;
 }
 
-.btn-or{
+.btn-or {
   margin: 5px;
 }
 
-.my-name{
-  color: #0061a8;
+.btn-primary, .dropdown-menu, .btn-primary:hover{
+  background-color: #185adb;
 }
 
-.delete-btn{
-  margin-top: 100px;
+
+.home-body {
+  min-height: 100%;
 }
 
-.markdown{
-  border: #ddd 2px solid;
-  padding: 20px;
-  margin-top: 30px;
-  background-color: #ddd;
-}
-
-.home-body{
-  padding:0 0 5% 0;
+label {
+  font-weight: 600;
 }
 
 /*---------Footer---------*/
-
-
 .footer {
   text-align: center;
   width: 100%;
   height: 60px;
-  background-color: #0061a8;
-  padding: 3rem;
-  position: fixed;
-  bottom: 0;
+  background-color: #185adb;
 }
 
 .footer p {
-  font-size: 12px;
+  font-size: 14px;
   color: #fff;
-  padding-bottom: 0%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 60px;
 }
-
 
 .my-2 {
   margin-top: 2%;

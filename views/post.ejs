@@ -1,10 +1,10 @@
 <%- include("partials/header"); -%>
 <div class="container-fluid home-body">
-<div class="container">
-<h1><%= title %></h1>
-<h6 class="card-subtitle"> <a href="/profile/<%=authorId%> "> <em><%= "@" + author %></em> </a></h6>
-<h4 class="mt-5"><%= content %> </h4>
-<div class="markdown"><%- markdown %> </div>
+<div class="">
+<h1 class="text-center"><%= title %></h1>
+<h6 class="card-subtitle text-center"> <a href="/profile/<%=authorId%> "> <em><%= "@" + author %></em> </a></h6>
+<h4 class="mt-5 text-center"><%= content %> </h4>
+<div class="post-box"><%- markdown %> </div>
 </div>
 </div>
 <%- include('partials/footer') -%>
