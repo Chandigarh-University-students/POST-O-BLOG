@@ -53,7 +53,7 @@ h2 {
   letter-spacing: 1.5px;
 }
 
-.link1>a:hover {
+.link1 > a:hover {
   font-weight: 600;
 }
 
@@ -104,6 +104,10 @@ h2 {
   display: inline;
 }
 
+.dropdown-item {
+  padding: 10px;
+}
+
 /*-----------Intro Heading----------*/
 #intro-content {
   text-align: center;
@@ -119,20 +123,23 @@ h2 {
 }
 
 #postoblog,
-#intro-content a, #intro-content a:hover, .post-title:hover, .liked, .my-name   {
+#intro-content a,
+#intro-content a:hover,
+.post-title:hover,
+.liked,
+.my-name {
   color: #185adb;
 }
-
 
 /*-------------Body-------------*/
 .post-box {
   padding: 2%;
   margin: 4rem 8rem;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.4);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(9.5px);
-  -webkit-backdrop-filter: blur(9.5px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
@@ -194,10 +201,14 @@ ard-body {
   margin: 5px;
 }
 
-.btn-primary, .dropdown-menu, .btn-primary:hover{
+.btn-primary,
+.dropdown-menu {
   background-color: #185adb;
 }
 
+.btn-primary:hover {
+  background-color: #023aaa;
+}
 
 .home-body {
   min-height: 100%;
@@ -225,4 +236,45 @@ label {
 
 .my-2 {
   margin-top: 2%;
+}
+
+@media (max-height: 725px) {
+  .home-body-bg {
+    background-size: 800px;
+  }
+}
+
+@media (max-height: 640px) {
+  .home-body-bg {
+    background-size: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-box {
+    width: 100%;
+    margin: 2% auto;
+  }
+
+  #intro-content h1 {
+    font-size: 3rem;
+  }
+
+  .post-para,
+  #intro-content h4 {
+    font-size: 1.5rem;
+  }
+  .post-title {
+    font-size: 2rem;
+  }
+  .card-body {
+    padding: 0 4rem;
+  }
+  .card-subtitle a {
+    font-size: 12px;
+  }
+  .rm-btn {
+    padding: 5px 10px;
+    border: 2px solid transparent;
+  }
 }
