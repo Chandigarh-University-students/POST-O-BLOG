@@ -1,25 +1,22 @@
 <%- include("partials/header"); -%>
 
-<div class="container-fluid home-body">
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="card">
+<div class="container home-body">
+    <div class="sign card">
                 <div class="card-body">
-                    <h1>Sign Up</h1>
+                    <h1 class="text-center">Sign Up</h1>
                     <!-- Makes POST request to /register route -->
                     <form action="/signup" method="POST">
                         <div class="form-group">
                             <label for="userhandle">Username</label>
-                            <input type="text" class="form-control" name="userhandle">
+                            <input type="text" class="form-control" name="userhandle" required>
                         </div>
                         <div class="form-group">
                             <label for="username">Email</label>
-                            <input type="email" class="form-control" name="username">
+                            <input type="email" class="form-control" name="username" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password" required>
                         </div>
                         <button type="submit" class="btn btn-block btn-primary">Sign Up</button>
                     </form>
@@ -27,9 +24,7 @@
                     <button class="btn btn-block btn-danger"><a href="/auth/google"><i class="fa fa-google"></i> Sign Up with Google
                     </a></button>
                 </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 </div>
 

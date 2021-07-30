@@ -218,6 +218,11 @@ label {
   font-weight: 600;
 }
 
+.sign{
+  max-width: 500px;
+  margin: 80px auto auto auto;
+}
+
 /*---------Footer---------*/
 .footer {
   text-align: center;
@@ -276,5 +281,12 @@ label {
   .rm-btn {
     padding: 5px 10px;
     border: 2px solid transparent;
+  }
+}
+
+@media (max-width:408px){
+  #postoblog{
+    display: block;
+    text-align: center;
   }
 }
