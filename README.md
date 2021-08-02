@@ -6,10 +6,10 @@
 
 <br>
 
-### Checkout the Deployed website : https://post-o-blog.herokuapp.com/
+https://user-images.githubusercontent.com/75828760/127818439-0672a363-6aee-4758-b35d-efd513376927.mp4
 
-<br>
-<br>
+#### Checkout the Deployed website : https://post-o-blog.herokuapp.com/
+<br />
 
 ## TECHNOLOGY USED
 ![HTML](https://img.shields.io/badge/-HTML-333333?style=flat&logo=HTML5)
